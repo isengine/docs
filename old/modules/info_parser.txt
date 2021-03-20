@@ -1,0 +1,125 @@
+{
+	"link" : "http://www.tripadvisor.ru/Hotel_Review-g298534-d2701384-Reviews-Pyatigorsk_Hotel-Pyatigorsk_Stavropol_Krai_North_Caucasian_District.html#REVIEWS",
+	// ссылка для парсинга
+	// пока только одна, но в дальнейшем планируется сделать массив и текстовые переменные для перечисления страниц
+	
+	"useragent" : true,
+	// если true - то данные пользователя, или указать прямо текстом
+	
+	"curl" : false,
+	// отправка запроса по curl, либо если нет - то обычный file_get_content
+	
+	"limit" : 3,
+	// лимит на вывод материалов
+	
+	"order" : "asc",
+	// сортировка asc/desc - последний разворачивает массив задом наперед
+	
+	"time" : "1 week",
+	// обновления число*week/month/hour/min/sec
+	
+	"try" : {
+	// попытки прочтения
+		"pause" : 1,
+		// пауза между попытками в секундах
+		"count" : 5,
+		// максимальное число попыток
+		"size" : 1200000
+		// размер получаемого файла, ниже которого не принимается и пробует еще
+	},
+	
+	"merge" : true,
+	// создать массив данных и новые добавлять туда
+	
+	"save" : {
+	// сохранение, пока только в статьи
+		"folder" : "advisors",
+		// папка статей
+		"name" : "name",
+		// поле, по которому берется имя, в дальнейшем планируется ввести текстовые переменные
+		"type" : "ini"
+		// тип - ini/csv, пока только ini
+	},
+	
+	// ниже - собственно параметры парсинга
+	// пояснения по заполнению значений:
+	// поддерживаются регулярные выражения
+	// кавычки нужно слешить, чтобы не путать их с кавычками строки json: \"
+	// если вы хотите передать слеш, его нужно также слешить: \\
+	// чтобы передать скобки тегов '<' и '>', используйте '[tag:open]' и '[tag:close]'
+	
+	"target" : {
+		"start" : "[tag:open]div.*?data-test-target=\\\"reviews-tab\\\"",
+		"end" : "data-placement-name=\"pivot_footer_react\"",
+		"itemstart" : "[tag:open]div.*?class=\\\"hotels-community-tab-common-Card__card--",
+		"itemend" : "[tag:open]div.*?class=\\\"hotels-review-list-parts-SocialBar__bar"
+	},
+	// блок цели:
+	// start/end - парсится все, что между этими значениями
+	// itemstart/itemend - между этими значениями парсятся элементы (которых может быть несколько)
+	// элементы записываются в массив, из которых потом выдергиваются данные
+	
+	"page" : {
+		"rating" : {
+			"start" : "hotels-hotel-review-about-with-photos-Reviews__overallRating--.*?[tag:close]",
+			"end" : "[tag:open]\\\/span[tag:close]"
+		},
+		"reviews" : {
+			"start" : "hotels-hotel-review-about-with-photos-Reviews__seeAllReviews--.*?[tag:close]",
+			"end" : "[tag:open]\\\/span[tag:close]",
+			"clear" : "numeric"
+		}
+	},
+	// блок страницы:
+	// построен по тому же принципу, что и блок элементов
+	
+	"create" : {
+		"name" : {
+			"start" : "ui_header_link.*?[tag:close]",
+			"end" : "[tag:open]\\\/a[tag:close]"
+		},
+		"namelink" : {
+			"start" : "ui_header_link social-member-event-MemberEventOnObjectBlock__member--.*?href=\\\"",
+			"end" : "\\\""
+		},
+		"date" : {
+			"start" : "[tag:open]span class=\\\"hotels-review-list-parts-EventDate__bold.*?\\\/span[tag:close]",
+			"end" : "[tag:open]\\\/span[tag:close]",
+			"clear" : true
+		},
+		"rating" : {
+			"start" : "[tag:open]span class=\\\"ui_bubble_rating bubble_",
+			"end" : "0\\\"",
+			"filter" : [1, 2, 3]
+		},
+		"title" : {
+			"start" : "hotels-review-list-parts-ReviewTitle__reviewTitleText--.*?[tag:open]span[tag:close].*?[tag:open]span[tag:close]",
+			"end" : "[tag:open]\\\/span[tag:close]"
+		},
+		"text" : {
+			"start" : "[tag:open]q class=\\\"hotels-review-list-parts-ExpandableReview__reviewText.*?[tag:close]",
+			"end" : "[tag:open]\\\/q[tag:close]",
+			"clear" : "notags"
+		},
+		"link" : {
+			"start" : "hotels-review-list-parts-ReviewTitle__reviewTitle--.*?[tag:open]a href=\\\"",
+			"end" : "\\\""
+		},
+		"city" : {
+			"start" : "social-member-common-MemberHometown__icon--.*?[tag:open]\\\/span[tag:close]",
+			"end" : "[tag:open]\\\/span[tag:close]"
+		}
+	}
+	// блок элементов:
+	// элементы парсятся из массива и заносятся в массив данных, каждый элемент распарсивается по параметрам
+	// ключ - это название параметра, под этим ключом он будет внесен в элементе в массив данных
+	// далее следуют параметры:
+	// start/end - парсится все, что между этими значениями
+	// clear - последующая обработка, согласно функции dataclear
+	// filter - фильтр содержимого, если в содержимом есть фразы из фильтра, отбрасывается весь элемент целиком, а не только этот параметр
+	// значения фильтра:
+	// true - чтобы пропускать элементы с пустым параметром
+	// string - строка по которой будет сравнение (не точное совпадение, а наличие фразы в тексте)
+	// если одной строки не достаточно, указывайте их через пробел
+	
+}

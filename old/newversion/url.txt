@@ -1,0 +1,197 @@
+http://0iscms.ru/ NEW HTACCESS
+[HTTP_HOST] => 0iscms.ru
+[HTTP_CONNECTION] => keep-alive
+[HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+[HTTP_USER_AGENT] => Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36
+[HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3
+[HTTP_ACCEPT_ENCODING] => gzip, deflate
+[HTTP_ACCEPT_LANGUAGE] => ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7
+[PATH] => c:\ospanel\modules\php\PHP-5.6\ext;c:\ospanel\modules\php\PHP-5.6\pear;c:\ospanel\modules\php\PHP-5.6\pear\bin;c:\ospanel\modules\php\PHP-5.6;c:\ospanel\modules\wget\bin;c:\ospanel\modules\database\MySQL-5.6\bin;c:\ospanel\modules\http\Apache-2.4\bin;c:\ospanel\modules\http\Apache-2.4;C:\Windows\system32;C:\Windows;C:\Windows\system32\Wbem;C:\Windows\SysWOW64
+[SystemRoot] => C:\Windows
+[COMSPEC] => C:\Windows\system32\cmd.exe
+[PATHEXT] => .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+[WINDIR] => C:\Windows
+[SERVER_SIGNATURE] => 
+[SERVER_SOFTWARE] => Apache
+[SERVER_NAME] => 0iscms.ru
+[SERVER_ADDR] => 127.0.0.1
+[SERVER_PORT] => 80
+[REMOTE_ADDR] => 127.0.0.1
+[DOCUMENT_ROOT] => C:/OSPanel/domains/0iscms.ru/www
+[REQUEST_SCHEME] => http
+[CONTEXT_PREFIX] => 
+[CONTEXT_DOCUMENT_ROOT] => C:/OSPanel/domains/0iscms.ru/www
+[SERVER_ADMIN] => [no address given]
+[SCRIPT_FILENAME] => C:/OSPanel/domains/0iscms.ru/www/index.php
+[REMOTE_PORT] => 7060
+[GATEWAY_INTERFACE] => CGI/1.1
+[SERVER_PROTOCOL] => HTTP/1.1
+[REQUEST_METHOD] => GET
+[QUERY_STRING] => 
+[REQUEST_URI] => /
+[SCRIPT_NAME] => /index.php
+[PHP_SELF] => /index.php
+[REQUEST_TIME_FLOAT] => 1566564734.481
+[REQUEST_TIME] => 1566564734
+[argv] => Array()
+[argc] => 0
+
+http://0iscms.ru/index.php/ NEW HTACCESS
+[HTTP_HOST] => 0iscms.ru
+[HTTP_CONNECTION] => keep-alive
+[HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+[HTTP_USER_AGENT] => Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36
+[HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3
+[HTTP_ACCEPT_ENCODING] => gzip, deflate
+[HTTP_ACCEPT_LANGUAGE] => ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7
+[PATH] => c:\ospanel\modules\php\PHP-5.6\ext;c:\ospanel\modules\php\PHP-5.6\pear;c:\ospanel\modules\php\PHP-5.6\pear\bin;c:\ospanel\modules\php\PHP-5.6;c:\ospanel\modules\wget\bin;c:\ospanel\modules\database\MySQL-5.6\bin;c:\ospanel\modules\http\Apache-2.4\bin;c:\ospanel\modules\http\Apache-2.4;C:\Windows\system32;C:\Windows;C:\Windows\system32\Wbem;C:\Windows\SysWOW64
+[SystemRoot] => C:\Windows
+[COMSPEC] => C:\Windows\system32\cmd.exe
+[PATHEXT] => .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+[WINDIR] => C:\Windows
+[SERVER_SIGNATURE] => 
+[SERVER_SOFTWARE] => Apache
+[SERVER_NAME] => 0iscms.ru
+[SERVER_ADDR] => 127.0.0.1
+[SERVER_PORT] => 80
+[REMOTE_ADDR] => 127.0.0.1
+[DOCUMENT_ROOT] => C:/OSPanel/domains/0iscms.ru/www
+[REQUEST_SCHEME] => http
+[CONTEXT_PREFIX] => 
+[CONTEXT_DOCUMENT_ROOT] => C:/OSPanel/domains/0iscms.ru/www
+[SERVER_ADMIN] => [no address given]
+[SCRIPT_FILENAME] => C:/OSPanel/domains/0iscms.ru/www/index.php
+[REMOTE_PORT] => 7075
+[GATEWAY_INTERFACE] => CGI/1.1
+[SERVER_PROTOCOL] => HTTP/1.1
+[REQUEST_METHOD] => GET
+[QUERY_STRING] => 
+[REQUEST_URI] => /index.php
+[SCRIPT_NAME] => /index.php
+[PHP_SELF] => /index.php
+[REQUEST_TIME_FLOAT] => 1566564753.18
+[REQUEST_TIME] => 1566564753
+[argv] => Array()
+[argc] => 0
+
+http://0iscms.ru/configuration.php/ NEW HTACCESS
+[REDIRECT_REQUEST_METHOD] => GET
+[REDIRECT_STATUS] => 403
+[HTTP_HOST] => 0iscms.ru
+[HTTP_CONNECTION] => keep-alive
+[HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+[HTTP_USER_AGENT] => Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36
+[HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3
+[HTTP_ACCEPT_ENCODING] => gzip, deflate
+[HTTP_ACCEPT_LANGUAGE] => ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7
+[PATH] => c:\ospanel\modules\php\PHP-5.6\ext;c:\ospanel\modules\php\PHP-5.6\pear;c:\ospanel\modules\php\PHP-5.6\pear\bin;c:\ospanel\modules\php\PHP-5.6;c:\ospanel\modules\wget\bin;c:\ospanel\modules\database\MySQL-5.6\bin;c:\ospanel\modules\http\Apache-2.4\bin;c:\ospanel\modules\http\Apache-2.4;C:\Windows\system32;C:\Windows;C:\Windows\system32\Wbem;C:\Windows\SysWOW64
+[SystemRoot] => C:\Windows
+[COMSPEC] => C:\Windows\system32\cmd.exe
+[PATHEXT] => .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+[WINDIR] => C:\Windows
+[SERVER_SIGNATURE] => 
+[SERVER_SOFTWARE] => Apache
+[SERVER_NAME] => 0iscms.ru
+[SERVER_ADDR] => 127.0.0.1
+[SERVER_PORT] => 80
+[REMOTE_ADDR] => 127.0.0.1
+[DOCUMENT_ROOT] => C:/OSPanel/domains/0iscms.ru/www
+[REQUEST_SCHEME] => http
+[CONTEXT_PREFIX] => 
+[CONTEXT_DOCUMENT_ROOT] => C:/OSPanel/domains/0iscms.ru/www
+[SERVER_ADMIN] => [no address given]
+[SCRIPT_FILENAME] => C:/OSPanel/domains/0iscms.ru/www/index.php
+[REMOTE_PORT] => 7088
+[REDIRECT_URL] => /configuration.php/
+[GATEWAY_INTERFACE] => CGI/1.1
+[SERVER_PROTOCOL] => HTTP/1.1
+[REQUEST_METHOD] => GET
+[QUERY_STRING] => error=403
+[REQUEST_URI] => /configuration.php/
+[SCRIPT_NAME] => /index.php
+[PHP_SELF] => /index.php
+[REQUEST_TIME_FLOAT] => 1566564767.978
+[REQUEST_TIME] => 1566564767
+[argv] => Array([0]=>error=403)
+[argc] => 1
+
+http://0iscms.ru/administrator/configuration.php/ NEW HTACCESS
+[REDIRECT_REQUEST_METHOD] => GET
+[REDIRECT_STATUS] => 403
+[HTTP_HOST] => 0iscms.ru
+[HTTP_CONNECTION] => keep-alive
+[HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+[HTTP_USER_AGENT] => Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36
+[HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3
+[HTTP_ACCEPT_ENCODING] => gzip, deflate
+[HTTP_ACCEPT_LANGUAGE] => ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7
+[PATH] => c:\ospanel\modules\php\PHP-5.6\ext;c:\ospanel\modules\php\PHP-5.6\pear;c:\ospanel\modules\php\PHP-5.6\pear\bin;c:\ospanel\modules\php\PHP-5.6;c:\ospanel\modules\wget\bin;c:\ospanel\modules\database\MySQL-5.6\bin;c:\ospanel\modules\http\Apache-2.4\bin;c:\ospanel\modules\http\Apache-2.4;C:\Windows\system32;C:\Windows;C:\Windows\system32\Wbem;C:\Windows\SysWOW64
+[SystemRoot] => C:\Windows
+[COMSPEC] => C:\Windows\system32\cmd.exe
+[PATHEXT] => .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+[WINDIR] => C:\Windows
+[SERVER_SIGNATURE] => 
+[SERVER_SOFTWARE] => Apache
+[SERVER_NAME] => 0iscms.ru
+[SERVER_ADDR] => 127.0.0.1
+[SERVER_PORT] => 80
+[REMOTE_ADDR] => 127.0.0.1
+[DOCUMENT_ROOT] => C:/OSPanel/domains/0iscms.ru/www
+[REQUEST_SCHEME] => http
+[CONTEXT_PREFIX] => 
+[CONTEXT_DOCUMENT_ROOT] => C:/OSPanel/domains/0iscms.ru/www
+[SERVER_ADMIN] => [no address given]
+[SCRIPT_FILENAME] => C:/OSPanel/domains/0iscms.ru/www/index.php
+[REMOTE_PORT] => 7107
+[REDIRECT_URL] => /administrator/configuration.php/
+[GATEWAY_INTERFACE] => CGI/1.1
+[SERVER_PROTOCOL] => HTTP/1.1
+[REQUEST_METHOD] => GET
+[QUERY_STRING] => error=403
+[REQUEST_URI] => /administrator/configuration.php/
+[SCRIPT_NAME] => /index.php
+[PHP_SELF] => /index.php
+[REQUEST_TIME_FLOAT] => 1566564788.072
+[REQUEST_TIME] => 1566564788
+[argv] => Array([0]=>error=403)
+[argc] => 1
+
+http://0iscms.ru/administrator/index.php/ NEW HTACCESS
+[REDIRECT_STATUS] => 200
+[HTTP_HOST] => 0iscms.ru
+[HTTP_CONNECTION] => keep-alive
+[HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+[HTTP_USER_AGENT] => Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36
+[HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3
+[HTTP_ACCEPT_ENCODING] => gzip, deflate
+[HTTP_ACCEPT_LANGUAGE] => ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7
+[PATH] => c:\ospanel\modules\php\PHP-5.6\ext;c:\ospanel\modules\php\PHP-5.6\pear;c:\ospanel\modules\php\PHP-5.6\pear\bin;c:\ospanel\modules\php\PHP-5.6;c:\ospanel\modules\wget\bin;c:\ospanel\modules\database\MySQL-5.6\bin;c:\ospanel\modules\http\Apache-2.4\bin;c:\ospanel\modules\http\Apache-2.4;C:\Windows\system32;C:\Windows;C:\Windows\system32\Wbem;C:\Windows\SysWOW64
+[SystemRoot] => C:\Windows
+[COMSPEC] => C:\Windows\system32\cmd.exe
+[PATHEXT] => .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+[WINDIR] => C:\Windows
+[SERVER_SIGNATURE] => 
+[SERVER_SOFTWARE] => Apache
+[SERVER_NAME] => 0iscms.ru
+[SERVER_ADDR] => 127.0.0.1
+[SERVER_PORT] => 80
+[REMOTE_ADDR] => 127.0.0.1
+[DOCUMENT_ROOT] => C:/OSPanel/domains/0iscms.ru/www
+[REQUEST_SCHEME] => http
+[CONTEXT_PREFIX] => 
+[CONTEXT_DOCUMENT_ROOT] => C:/OSPanel/domains/0iscms.ru/www
+[SERVER_ADMIN] => [no address given]
+[SCRIPT_FILENAME] => C:/OSPanel/domains/0iscms.ru/www/index.php
+[REMOTE_PORT] => 7122
+[REDIRECT_URL] => /administrator/index.php
+[GATEWAY_INTERFACE] => CGI/1.1
+[SERVER_PROTOCOL] => HTTP/1.1
+[REQUEST_METHOD] => GET
+[QUERY_STRING] => 
+[REQUEST_URI] => /administrator/index.php
+[SCRIPT_NAME] => /index.php
+[PHP_SELF] => /index.php
+[REQUEST_TIME_FLOAT] => 1566564804.635
+[REQUEST_TIME] => 1566564804
+[argv] => Array()
+[argc] => 0

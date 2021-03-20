@@ -1,0 +1,237 @@
+на данный момент не реализовано (а должно бы):
+
+для доступов в базу данных (для начала хотя бы в базу пользователей) должны использоваться функции
+с общим названием и общими параметрами, но разным поведением внутри - для локальной базы, mysql и pdo
+
+переинициализация базы данных должна происходить только из админки, иначе будет сильно нагружаться сайт
+здесь оставлена только проверка по свойствам полей
+
+
+
+Функции работы с базой данных:
+
+SELECT * FROM db_name WHERE db_field = db_value
+SELECT * FROM db_name WHERE db_field = db_value AND db_field = db_value 
+SELECT * FROM db_name WHERE db_field = db_value LIMIT 1
+SELECT db_field FROM db_name WHERE db_field = db_value
+SELECT db_field, db_field, db_fields FROM db_name WHERE db_field = db_value
+SELECT COUNT(db_field) FROM db_name WHERE db_field = db_value
+
+INSERT INTO db_name VALUES ( db_value, db_value, db_values )
+INSERT INTO db_name ( db_field, db_field, db_fields ) VALUES ( db_value, db_value, db_values )
+INSERT INTO db_name ( db_field, db_field, db_fields ) SELECT db_field, db_field, db_fields FROM db_name WHERE db_field = db_value
+
+UPDATE db_name SET db_field = db_value, db_field = db_value, db_fields = db_values WHERE db_field = db_value
+UPDATE db_name SET db_field = db_value, db_field = db_value, db_fields = db_values
+
+DELETE FROM db_name WHERE db_field = db_value
+
+параметры:
+
+	тип обработки данных:
+		select
+		count
+		insert
+		update
+		delete
+	имя базы данных
+	массив с перечислением полей и их значений
+	сравнение, также массив с перечислением полей и их значений (необязательный)
+	лимит, false или 0 - без лимита (необязательный)
+
+примеры:
+
+SELECT * FROM db_name WHERE db_field = db_value
+dbLocal('db_name', 'select', '', ['db_field' => 'db_value']);
+
+SELECT * FROM db_name WHERE db_field = db_value AND db_field = db_value 
+dbLocal('db_name', 'select', '', ['db_field' => 'db_value', 'db_field' => 'db_value']);
+
+SELECT * FROM db_name WHERE db_field = db_value LIMIT 1
+dbLocal('db_name', 'select', '', ['db_field' => 'db_value'], 1);
+
+SELECT db_field FROM db_name WHERE db_field = db_value
+dbLocal('db_name', 'select', 'db_field', ['db_field' => 'db_value']);
+
+SELECT db_field, db_field, db_fields FROM db_name WHERE db_field = db_value
+dbLocal('db_name', 'select', ['db_field', 'db_field', 'db_fields'], ['db_field' => 'db_value']);
+
+SELECT COUNT(db_field) FROM db_name WHERE db_field = db_value
+dbLocal('db_name', 'count', 'db_field', ['db_field' => 'db_value']);
+
+INSERT INTO db_name VALUES ( db_value, db_value, db_values )
+dbLocal('db_name', 'insert', ['db_value', 'db_value', 'db_values']);
+
+INSERT INTO db_name ( db_field, db_field, db_fields ) VALUES ( db_value, db_value, db_values )
+dbLocal('db_name', 'insert', ['db_field' => 'db_value', 'db_field' => 'db_value', 'db_fields' => 'db_values']);
+
+INSERT INTO db_name ( db_field, db_field, db_fields ) SELECT db_field, db_field, db_fields FROM db_name WHERE db_field = db_value
+?
+
+UPDATE db_name SET db_field = db_value, db_field = db_value, db_fields = db_values WHERE db_field = db_value
+dbLocal('db_name', 'update', ['db_field' => 'db_value', 'db_field' => 'db_value', 'db_fields' => 'db_values'], ['db_field' => 'db_value']);
+
+UPDATE db_name SET db_field = db_value, db_field = db_value, db_fields = db_values
+dbLocal('db_name', 'update', ['db_field' => 'db_value', 'db_field' => 'db_value', 'db_fields' => 'db_values']);
+
+DELETE FROM db_name WHERE db_field = db_value
+dbLocal('db_name', 'delete', '', ['db_field' => 'db_value']);
+
+
+
+Принцип работы с базой данных
+
+Есть общая функция, dbUse (раньше dbLocal), выполняющая роль драйвера.
+Она берет любой запрос и исполняет его.
+Но у этой функции много настроек, с которыми приходится работать.
+
+Для упрощения процесса обращения к базе данных, мы используем функцию - транслятор,
+которая имеет упрощенную запись и нужна для обработки только конкретных типовых запросов.
+
+Например, это могут быть dbUser, dbSettings, dbModule, dbRead и др.
+
+Схематически это выглядит так:
+
+dbUser     \
+dbSettings  \
+dbModule     > dbUse > [PDO/MySql] > DATABASE
+dbRead      /
+...        /
+
+транслятор -> драйвер -> интерфейс -> база данных
+
+
+
+Все имена функций начинаются на db... - что указывает на работу с базой данных
+
+Зарезервированные названия функций и переменных, обозначающие элементы сайта
+и соответствующие им разделы в базе данных:
+	administrator
+	templates
+	modules
+	libraries
+	structures
+	articles
+	users
+	article
+	module
+
+Кроме них, есть также несколько служебных разделов/таблиц в базе данных,
+но сведения о них будут приведены позже, т.к. на данный момент работа с базой данных
+восстанавливается и названия, и даже структура этиъ служебных разделов может измениться
+
+Зарезервированные названия функций и переменных для различных операций:
+	read - чтение из базы данных (не open и не load, как раньше)
+	write - запись в базу данных (не save как раньше)
+	select - выбор значения из базы данных (лучше использовать для внутренних операций и названий)
+	count - подсчет значений
+	insert - запись новой строки в базу данных (лучше использовать для внутренних операций и названий)
+	update - обновление каких-либо значений существующей строки (лучше использовать для внутренних операций и названий)
+	delete - удаление записи из базы данных
+
+Например, можно создать универсальную функцию обращения к базе данных пользователя dbUser($name, $read_write)
+или несколько функцию dbUserRead($name), dbUserWrite($name), dbUserDelete($name), dbUserReadId($name)
+или целый класс $user = dbUser($name); $user -> read; $user -> write; $user -> delete;
+
+
+
+Непонятно, что делать с параметрами, представленными по разному для локальной версии и базы данных.
+
+Сейчас считается, что все подобные параметры стандартизированы. Например, если локальный файл структуры админки имеет название administrator.ini и лежит в папке админки,
+то таблица в базе данных будет называться "structures", а поля в ней будут - name и data, где name совпадает с именем файла, а data - с его содержимым.
+
+Однако такие разделы, как libraries, languages, processor, настройки модулей и пр. должны иметь иное представление. Но пока такое не реализовано.
+
+
+
+Упорядочивание обращений:
+
+Типовые запросы: 
+
+SELECT * FROM db_name WHERE db_field = db_value
+dbUse('db_name', 'select', '', ['db_field' => 'db_value']);
+
+SELECT * FROM 'structures' WHERE 'name' = '...'
+dbUse('structures', 'select', '', ['name' => '...']);
+
+SELECT COUNT(db_field) FROM db_name WHERE db_field = db_value
+dbUse('db_name', 'count', 'db_field', ['db_field' => 'db_value']);
+
+SELECT * FROM 'structures' WHERE 'name' = 'administrator' LIMIT 1
+dbUse('structures', 'select', '', ['name' => 'administrator'], options = ['json' => true, 'format' => 'structure', 'limit' => 1]);
+dbSelect('structures', 'administrator')
+
++++
+
+SELECT * FROM 'settings' WHERE 'name' = 'libraries' LIMIT 1
+dbUse('settings', 'select', '', ['name' => 'libraries'], options = ['json' => true, 'format' => false, 'limit' => 1]);
+
+dbSelect('settings', 'libraries')
+dbSelect('settings', 'languages')
+dbSelect('settings', 'settings')
+dbSelect('settings', 'processor')
+
++++
+
+SELECT 'lang' FROM 'languages' WHERE 'name' = $template -> lang AND 'template' => $template -> name
+SELECT 'lang' FROM 'languages' WHERE 'name' = $template -> lang AND 'template' => $template -> name
+SELECT 'dictionary' FROM 'languages' WHERE 'name' = $template -> lang AND 'template' => $template -> name
+SELECT 'dictionary' FROM 'languages' WHERE 'name' = $template -> lang AND 'template' => $template -> name
+
+SELECT 'lang' FROM 'languages' WHERE 'name' = $template -> lang AND 'template' => 'base'
+SELECT 'common' FROM 'languages' WHERE 'name' = $template -> lang AND 'template' => 'base'
+SELECT 'dictionary' FROM 'languages' WHERE 'name' = $template -> lang AND 'template' => 'base'
+
+dbUse('languages', 'select', 'lang', ['name' => $template -> lang, 'template' => $template -> name], ['limit' => 1, 'json' => true, 'format' => false])
+dbUse('languages', 'select', 'lang', ['name' => $template -> lang, 'template' => $template -> name], ['limit' => 1, 'json' => true, 'format' => false])
+dbUse('languages', 'select', 'dictionary', ['name' => $template -> lang, 'template' => $template -> name], ['limit' => 1, 'json' => true, 'format' => true])
+dbUse('languages', 'select', 'dictionary', ['name' => $template -> lang, 'template' => $template -> name], ['limit' => 1, 'json' => true, 'format' => true])
+
+dbUse('languages', 'select', 'lang', ['name' => $template -> lang, 'template' => 'base'], ['limit' => 1, 'json' => true, 'format' => false])
+dbUse('languages', 'select', 'common', ['name' => $template -> lang, 'template' => 'base'], ['limit' => 1, 'json' => true, 'format' => false])
+dbUse('languages', 'select', 'dictionary', ['name' => $template -> lang, 'template' => 'base'], ['limit' => 1, 'json' => true, 'format' => true])
+
++++	
+
+общий вывод данных из шаблона:
+
+SELECT $col FROM 'templates' WHERE 'name' = $template -> name LIMIT 1
+dbUse('templates', 'select', $col, $template -> name, ['limit' => 1, 'json' => true, 'format' => true/false])
+dbSelect('templates', $template -> name)
+
++++
+
+SELECT 'data' FROM 'modules' WHERE 'name' = $module -> name AND 'param' = null LIMIT 1
+SELECT 'data' FROM 'modules' WHERE 'name' = $module -> name AND 'param' = $module -> param LIMIT 1
+
+dbUse('modules', 'select', 'data', ['name' => $module -> name, 'param' => null], ['limit' => 1, 'json' => true, 'format' => false])
+dbUse('modules', 'select', 'data', ['name' => $module -> name, 'param' => $module -> param], ['limit' => 1, 'json' => true, 'format' => false])
+
++++
+
+dbUse(['name' => $path . DIRECTORY_SEPARATOR . $data, 'json' => true, 'asarray' => 'article'], 'select')
+
+разбираем - здесь сложновато
+
+moduleArticleGet($module -> this . '.' . $module -> settings -> ext, PATH_ARTICLES . DIRECTORY_SEPARATOR . $module -> param, $module -> settings)
+moduleArticleGet($item                                             , PATH_ARTICLES . DIRECTORY_SEPARATOR . $module -> param, $module -> settings)
+
+function moduleArticleGet($data, $path, $settings) {
+	$file = dataloadjson($path . DIRECTORY_SEPARATOR . $data, 'article');
+}
+
+перерабатываем
+
+$item = substr($item, 0, strrpos($item, '.' . $module -> settings -> ext));
+
+moduleArticleGet($module -> this, $module -> param, $module -> settings)
+moduleArticleGet($item          , $module -> param, $module -> settings)
+
+function moduleArticleGet($data, $param, $settings) {
+	$file = dataloadjson(PATH_ARTICLES . DIRECTORY_SEPARATOR . $param . DIRECTORY_SEPARATOR . $data . '.' . $settings -> ext, 'article');
+}
+
+SELECT * FROM 'articles_' . $param WHERE 'name' = $data LIMIT 1
+dbUse('articles_' . $param, 'select', false, $data, ['limit' => 1, 'json' => true, 'format' => 'article'])
+
++++

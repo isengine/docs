@@ -1,0 +1,195 @@
+здесь мы тестируем механизм управления правами групп пользователей
+
+создадим следующие типы прав:
+база данных - меню
+1. гость - можно читать всё, кроме закрытых разделов
+2. зарегистрированный пользователь - можно читать все, в т.ч. закрытые разделы, но ничего нельзя писать, кроме своих
+3. модератор - можно все читать и писать, но нельзя ничего добавлять и удалять
+4. админ - можно все
+
+	rightname:guest
+	db:menu
+		read:
+			allow:all
+			deny:
+				names:all
+				types:personal
+				parents:all
+				fields:all
+				self:ignore
+		write:
+			allow:none
+			deny:all
+		add:
+			allow:none
+			deny:all
+		delete:
+			allow:none
+			deny:all
+	
+	rightname:register
+	db:menu
+		read:
+			allow:all
+			deny:none
+		write:
+			allow:self
+			deny:unknown
+		add:
+			allow:none
+			deny:all
+		delete:
+			allow:none
+			deny:all
+	
+	rightname:moderator
+	db:menu
+		read:
+			allow:all
+			deny:none
+		write:
+			allow:all
+			deny:none
+		add:
+			allow:none
+			deny:all
+		delete:
+			allow:none
+			deny:all
+	
+	rightname:admin
+	db:menu
+		read:
+			allow:all
+			deny:none
+		write:
+			allow:all
+			deny:none
+		add:
+			allow:all
+			deny:none
+		delete:
+			allow:all
+			deny:none
+
+
+создадим следующие типы прав:
+две базы данных - контент и личные данные
+1. гость - можно читать всё, кроме закрытых разделов и личных данных
+2. зарегистрированный пользователь - можно читать все, в т.ч. закрытые разделы, кроме чужих личных данных, но свои личные данные можно изменять (кроме статуса)
+3. автор - можно читать все, а также часть личных данных (имена, контакты) других пользователей, свои личные данные можно изменять, можно также добавлять, изменять и удалять свой контент
+3. модератор - можно читать личные данные всех пользователей, кроме модераторов и администраторов (т.е. зареганных и авторов), но изменять можно только часть этих данных (статус), можно менять свои данные, кроме статуса. Можно добавлять, изменять и удалять контент.
+4. админ - можно все
+
+allow, (exclude), self, (excludeself)
+
+	значения none/no/[]/[''] равны false/null и проверяются !set(x)
+	значения yes/all равны true и проверяются x === true
+	любые другие значения в массиве [...] воспринимаются как есть и проверяются через is_array(x) или else и подробные условия
+	
+	allow и self проверяются отдельно и независимо друг от друга, причем сначала проверяется self и только затем - allow
+	exclude проверяется только когда задан allow - т.е. set(x)
+	excludeself проверяется только когда задан self
+
+Для начала, разобьем права по базам данных:
+
+для бд пользователей
+личные данные: имя, контакты, статус, прочее
+группы/права | чтение                | изменение                    | добавление        | удаление
+             | себя  | остальных     | себя          | остальных    | себя  | остальных | себя  | остальных
+-----------------------------------------------------------------------------------------------------------
+гость        | -       -             | -               -            | -       -         | -       -
+зарег        | +       -             | кроме статуса   -            | -       -         | +       -
+автор        | +       имя, контакты | кроме статуса   -            | -       -         | +       -
+модератор    | +       +             | кроме статуса   зарег, автор | -       -         | +       -
+админ        | +       +             | кроме статуса   +            | -       -         | -       -
+
+	rightname:guest
+	db:user
+		read:
+			allow:none
+		write:
+			allow:none
+		add:
+			allow:no
+		delete:
+			allow:no
+	
+	rightname:register
+	db:user
+		read:
+			allow:none
+			exclude:none
+			self:all
+		write:
+			allow:none
+			exclude:none
+			self:all
+			excludeself:
+				names:all
+				types:all
+				parents:all
+				fields:status
+		add:
+			allow:no
+		delete:
+			allow:no
+			self:yes
+	
+	rightname:author
+	db:user
+		read:
+			allow:
+				names:all
+				types:all
+				parents:all
+				fields:name,contacts
+			self:all
+		write:
+			allow:none
+			self:all
+			excludeself:
+				names:all
+				types:all
+				parents:all
+				fields:status
+		add:
+			allow:no
+		delete:
+			allow:no
+			self:yes
+	
+	rightname:moderator
+	db:user
+		read:
+			allow:
+				names:all
+				types:all
+				parents:all
+				fields:name,contacts
+			self:all
+		write:
+			allow:none
+			self:all
+			excludeself:
+				names:all
+				types:all
+				parents:all
+				fields:status
+		add:
+			allow:no
+		delete:
+			allow:no
+			self:yes
+	
+для бд контента
+группы/права | чтение                | изменение                    | добавление        | удаление
+             | себя  | остальных     | себя          | остальных    | себя  | остальных | себя  | остальных
+-----------------------------------------------------------------------------------------------------------
+гость        | -       -             | -               -            | -       -         | -       -
+зарег        | +       -             | кроме статуса   -            | -       -         | +       -
+автор        | +       имя, контакты | кроме статуса   -            | -       -         | +       -
+модератор    | +       +             | кроме статуса   зарег, автор | -       -         | +       -
+админ        | +       +             | кроме статуса   +            | -       -         | -       -
+
+

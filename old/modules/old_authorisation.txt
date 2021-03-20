@@ -1,0 +1,78 @@
+загрузка:
+
+\index.php
+	|
+	v
+\templates\index.php
+	|
+	v
+\templates\default\index.php
+	|
+	v
+\templates\default\html\modal.php
+	|
+	v
+\templates\default\html\login_script.php | registration_script.php
+	|
+	v
+\templates\default\html\login.php
+
+-----------------------------------------------------------------------------------------------------
+
+form
+"\templates\default\html\login.php"
+:
+
+<form method="post">
+	<input type="hidden" name="query" value="login">
+	<input type="hidden" name="hash" value="<?= $defaultsLogin['hash']; ?>">
+	<input
+		type="text"
+		name="datalogin[login]"
+		value="<?= htmlentities($defaultsLogin['login']); ?>"
+	/>
+	<input
+		type="password"
+		name="datalogin[password]"
+		value="<?= htmlentities($defaultsLogin['password']); ?>"
+	/>
+	...
+</form>
+
+	|	-----------------------------------------------------------------------------------------------------
+	|	
+	|	$defaultsLogin
+	|	"\templates\default\html\login_script.php"
+	|	:
+	|	
+	|	$salt = dechex(time());
+	|	$defaultsLogin = array(
+	|		'hash' => $salt . substr(MD5($_SESSION['token'] . $salt), 0, 30),
+	|		'login' => '',
+	|		'password' => '',
+	|	);
+	|	if (count($errorsLogin)) {
+	|		if ( isset($_POST['datalogin']['login']) ) {
+	|			$defaultsLogin['login'] = $_POST['datalogin']['login'];
+	|		}
+	|		if ( isset($_POST['datalogin']['password']) ) {
+	|			$defaultsLogin['password'] = $_POST['datalogin']['password'];
+	|		}
+	|	}
+	|	
+	|	-----------------------------------------------------------------------------------------------------
+	|	
+	|	$_SESSION['token']
+	|	"\includes\processor\verify\session.php"
+	|	:
+	|	
+	|	// задаем новый токен при каждом запросе
+	|	$token = '';
+	|	for ($i = 0; $i < 16; $i++) {
+	|		$token .= chr(mt_rand(32,126));
+	|	}
+	|	$_SESSION['token'] = $token; // задаем новый токен
+	|	$_SESSION['oldtoken'] = $hash; // сохраняем старый токен
+	|	
+	|	-----------------------------------------------------------------------------------------------------
+

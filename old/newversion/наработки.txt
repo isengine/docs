@@ -1,0 +1,60 @@
+# Код обработки ссылки в github и получения данных о библиотеке
+
+<?php
+	
+	//$s = 'https://github.com/fwmakc/iscms.git';
+	$s = 'https://github.com/seiyria/bootstrap-slider';
+	$s .= '/raw/master/';
+	$s .= 'dist/bootstrap-slider.js';
+	
+	//$h = file_get_contents($s);
+	//echo htmlentities($h);
+	
+	$l = 'https://github.com/seiyria/bootstrap-slider.git';
+	//$l = 'http://github.com/seiyria/bootstrap-slider.git';
+	//$l = '//github.com/seiyria/bootstrap-slider.git';
+	//$l = 'github.com/seiyria/bootstrap-slider.git';
+	//$l = 'github.com/seiyria/bootstrap-slider';
+	//$l = 'github.com/seiyria/bootstrap-slider/';
+	//$l = '/seiyria/bootstrap-slider/';
+	//$l = 'seiyria/bootstrap-slider/';
+	
+	$l = [
+		$l,
+		strpos($l, '.com'),
+		strpos($l, '.git')
+	];
+	if (substr($l[0], -1) === '/') {$l[0] = substr($l[0], 0, -1);}
+	if ($l[1]) {$l[1] = $l[1] + 4;}
+	if ($l[2]) {$l[2] = $l[2] - $l[1];} else {$l[2] = strlen($l[0]);}
+	$l = substr($l[0], $l[1], $l[2]);
+	if ($l[0] !== '/') {$l = '/' . $l;}
+	$l = 'https://github.com' . $l . '/raw/master/';
+	
+	echo $l;
+	exit;
+?>
+
+# Модули
+
+module
+name
+template
+settings
+this
+
+При создании модуля, создаются также все элементы, которые перечислены в массиве elements настоек модуля
+
+elements : {
+  name : tag:id:classes:data:area:attr
+}
+
+base : div::base_main:number 0 target block_home
+
+<div class="base_main" data-number="0" data-target="block_home">
+
+Для этого нужно править класс html и пропускать только разрешенные теги и атрибуты, а еще править значения по clear alphanumeric/default
+
+Еще нужно сделать возможность добавлять классы, айди и атрибуты через этот же класс
+
+Еще нужно сделать создание копий уже созданного элемента, тогда это будут инстансы со своими айди и они будут закрываться по айди

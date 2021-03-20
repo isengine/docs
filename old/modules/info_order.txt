@@ -1,0 +1,204 @@
+﻿Модуль формирования и обработки заказов
+
+	сканирует файл настроек
+	читает оттуда данные (в формате json)
+	последовательно обрабатывает их, переводя в один общий массив данных
+	выводит в шаблон
+	
+Шаблон задается самостоятельно, после вызова модуля, работа в шаблоне идет с объектом $module
+
+Настройки задаются в файле *.ini:
+	"place" : { // <-- места (столики в кафе, сиденья в кинотеатре, кабинеты в поликлинике)
+		"type" : "set", // тип данных: set - ручная установка размеров строк, line - одна строка, array - двухмерный массив
+		"param" : [10, 9, 8, 9, 10], // для set - размеры строк, для line - от, до и прибавление, для array - x, y
+		"multiselect" : true, // true/false или вообще не указывать - для множественного выбора 
+		"aloneselect" : true, // true/false или вообще не указывать - для отображения только одного места
+		"view" : "button" // button - в виде кнопок, select или не указывать - в виде списка
+	},
+	"week" : [1, 2, 3, 4, 5, 6, 7], // дни недели, которые будут активными
+	"time" : {
+		"type" : "set", // тип данных: set - ручная установка времени, line - автоматическая, auto - автовыбор значения без его отображения, schedule - для установки времени через расписание
+		"param" : ["11:00", "13:00", "15:00", "17:00"], // для set - перечисление времени, для line - от, до и прибавление
+		"view" : "button" // button - в виде кнопок, select или не указывать - в виде списка
+	},
+	"date" : {
+		"key" : "place", // ключевой массив, который выбирается, place или time, также time идет по-умолчанию, если не указывать
+		"alwaysview" : true, // все время показывать календарь или отображать его при щелчке по окну даты, если не указывать, выключен
+		"range" : true, // если включен, то выводит дату как диапазон дат от и до
+		"firstday" : 1, // первый день недели, если не указывать, то по-умолчанию для россии - понедельник, для зарубежа - воскресенье	
+		"maxdays" : 7, // максимальное число дней вперед
+		"mindays" : 0, // максимальное число дней назад
+		"startdate" : "01.12.2018", // начальная дата
+		"stopdate" : "21.12.2018", // конечная дата
+		"holidays" : ["01.01", "02.01"] // выходные, не рабочие дни, запрещенные к выбору, если не указывать год, то задаются для каждого года
+	}
+
+настройка расписания:
+	"schedule" : [
+		{
+			"place" : "", // если указать, будет идентификация с полем place, если нет, будет идентификация по-порядку
+			"name" : "", // название, которое будет выводится для поля place
+			"dates" : [ // здесь задаются настройки времени для дат или дней недели
+				{
+					"type" : "line",
+					"param" : ["11:00", "14:00", "0:30"],
+					"week" : [1, 3, 5]
+				},
+				{
+					"type" : "line",
+					"param" : ["14:00", "17:00", "0:30"],
+					"week" : [2, 4, 6]
+				}
+			]
+		},
+
+	}
+	// schedule или расписание может также подключаться в виде таблицы:
+	"place","name","type","param","week","type","param","week"
+	"1-1","Irina","line","[""11:00"", ""14:00"", ""0:30""]","[1, 5]","line","[""14:00"", ""17:00"", ""0:30""]","[2, 4, 6]"
+	// type, param и week могут дублироваться сколько угодно - они переносятся в подмассив "dates"
+
+настройка отправки уведомлений:
+	"message" : {
+		"place" : "столик",
+		"date" : "дата",
+		"time" : "время",
+		"user" : "имя",
+		"email" : "email",
+		"phone" : "телефон",
+		"lang" : "язык",
+		"currdate" : "заказ создан",
+		"addition" : "комментарии",
+		"status" : "статус",
+		"subject" : "Новый Заказ",
+		"text" : "С сайта поступил новый заказ! Данные заказа:"
+	},
+	"send" : [
+		{
+			"type" : "",
+					// email, vk, whatsapp, sms, в разработке telegram, viber, skype
+			"param" : "",
+					// параметр отправки
+					// для email это адрес smtp сервера или phpmail
+					// для vk это "user_id", "chat_id" или "domain"
+					// для смс это адрес шлюза со вставками ключей в фигурных скобках {}
+					// для whatsapp это также адрес шлюза
+			"id" : "",
+					// идентификатор, может быть один или несколько в массиве, например ["..","..",".."]
+					// для email это список адресов рассылки
+					// для vk это значения user_id, chat_id или domain
+					// для смс это номера телефонов для отправки
+					// для whatsapp это также номера телефонов
+			"key" : ""
+					// ключ
+					// для email это связка логин:пароль
+					// для vk это access_token приложения
+					// для смс это массив со значениями ключей, которые будут подставляться в адрес шлюза
+					// для whatsapp это token
+		}
+	],
+
+примеры:
+	"send" : [
+		{
+			"type" : "vk",
+			"param" : "domain",
+			"id" : ["user1", "user2"],
+			"key" : "01234567890abcdefghijklmnopqrstuvwxyz01234567890abcdefghijklmnopqrstuvwxyz01234567890"
+		},
+		{
+			"type" : "email",
+			"param" : "",
+			"id" : ["my@mail.ru", "my@yandex.ru"],
+			"key" : ""
+		},
+		{
+			"type" : "sms",
+			"param" : "https://{login}:{key}@gate.smsaero.ru/v2/sms/send?number={id}&text={message}&sign={sign}&channel=DIRECT",
+			"id" : "79xxxxxxxxx",
+			"key" : {
+				"login" : "mail@mail.ru",
+				"key" : "aAbBcCdDeEfFgGhHiIjJkKlLmMn",
+				"sign" : "BIZNES"
+			}
+		},
+		{
+			"type" : "whatsapp",
+			"param" : "https://web.chat-api.com/instance00000/",
+			"id" : "79xxxxxxxxx",
+			"key" : {
+				"key" : "abcdefghijklmnop",
+				"token" : "token",
+				"id" : "phone",
+				"message" : "body"
+			}
+		},
+		{
+			"type" : "whatsappget",
+			"param" : "https://panel.apiwha.com/send_message.php",
+			"id" : "79xxxxxxxxx",
+			"key" : {
+				"key" : "TRIAL0123456789ABCDE",
+				"token" : "apikey",
+				"id" : "number",
+				"message" : "text"
+			}
+		}
+	]
+
+что есть:
+	мультивыбор мест
+	сортировка
+	выбор приоритетов
+	куча-куча всего
+чего нет:
+	мультивыбора времени (но пока и не надо)
+	автоматической подгрузки скриптов в функции вызова модулей, если есть файл со скриптом (может, и не надо)
+	настроек разделителя для csv (может и не надо, если будет excel)
+	сохранения в формате excel
+	цен
+	разделения мест по ценам
+
+
+
+Есть ошибка, когда нельзя получить строку по get или post запросу, например в модуле whatsapp после конца триала или из-за отруба шлюза
+Надо, чтобы эту ошибку пользователь не мог видеть, чтобы она записывалась в логи и отправлялась на email техподдержки
+
+
+
+https://wa.me/15551234567?text=I'm%20interested%20in%20your%20car%20for%20sale
+.............тел.номер   ......текст сообщения
+
+id: 6704602
+key: mzIn7SRTt41cy7xhshnd
+service: e7c9b9fbe7c9b9fbe7c9b9fb6de7aff421ee7c9e7c9b9fbbc6518a6a31adfbcda3a846b
+access_token: 7c4c55dd229eca50647312f05d4a59d36e13c0adcbb27b584a9a6739dd9a83c93ae5c3e2a7726490df068
+
+$client_id
+https://oauth.vk.com/authorize?client_id=' . $client_id . '&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=messages,offline&response_type=token&v=5.37
+
+
+
+https://api.vk.com/method/messages.send?user_id=186718238&message=habrahabr&v=5.37&access_token=7c4c55dd229eca50647312f05d4a59d36e13c0adcbb27b584a9a6739dd9a83c93ae5c3e2a7726490df068
+https://api.vk.com/method/messages.send?domain=fwmakc&message=habrahabr&v=5.37&access_token=7c4c55dd229eca50647312f05d4a59d36e13c0adcbb27b584a9a6739dd9a83c93ae5c3e2a7726490df068
+
+
+function send($id , $message)
+{
+    $url = 'https://api.vk.com/method/messages.send';
+    $params = array(
+        'user_id' => $id,    // Кому отправляем
+        'message' => $message,   // Что отправляем
+        'access_token' => '0000000000000000000000000000',  // access_token можно вбить хардкодом, если работа будет идти из под одного юзера
+        'v' => '5.37',
+    );
+
+    // В $result вернется id отправленного сообщения
+    $result = file_get_contents($url, false, stream_context_create(array(
+        'http' => array(
+            'method'  => 'POST',
+            'header'  => 'Content-type: application/x-www-form-urlencoded',
+            'content' => http_build_query($params)
+        )
+    )));
+}

@@ -1,0 +1,64 @@
+https://developers.google.com/web/progressive-web-apps/desktop#app-window
+!!! >>> https://developers.google.com/web/fundamentals/app-install-banners/
+
+k12th
+> Также необходимо подчеркнуть, что все это не будет работать на яблочных устройствах. На них можно достичь приблизительно такого результата, только надо использовать другой способ.
+Подскажите, по каким словам гуглить?
+
+k12th, иконки добавляются через мета-тэг. Можете посмотреть, что генерит 2-ой сайт из инструментов. А чтобы убрать UI браузера необходимо добавить
+<meta name="apple-mobile-web-app-capable" content="yes">
+В репе все это есть, смотрите там)
+
+почитайте документацию:
+https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html
+
+k12th
+Спасибо, добрый человек.
+
+k12th
+Принялся реализовывать у себя и наткнулся на такую особенность: когда браузер запрашивает этот манифест, он не посылает куки (по крайней мере, в Chrome 47). Поэтому, если вы генерируете манифест под юзера, у вас какая-то кастомизация запоминается в куках, ее придется продублировать в GET-параметрах к манифесту, например:
+	<link rel="manifest" href="manifest.json?theme=inverse"/>
+Ну и в контроллере, отдающем манифест, надо это учесть.
+Еще кое-что: theme_color и background_color можно увидеть только если «display»: «standalone» или «fullscreen». Хотя, возможно, это зависит от реализации.
+
+https://developer.mozilla.org/ru/docs/Web/%D0%9C%D0%B0%D0%BD%D0%B8%D1%84%D0%B5%D1%81%D1%82
+
+https://github.com/GoogleChrome/samples/blob/gh-pages/service-worker/custom-offline-page/service-worker.js
+
+
+
+уведомления
+
+https://developers.google.com/web/fundamentals/push-notifications/
+
+
+
+приложения
+
+https://habr.com/ru/post/257889/
+
++adobe phonegap
+
+
+
+чатбот
+
+https://yamichat.ru/rate
+
+https://webim.ru/chat-bots/
+
+https://vc.ru/services/57488-14-servisov-dlya-sozdaniya-chat-bota-bez-navykov-programmirovaniya
+:
+http://aimylogic.com/
+
+
+ChattyPeople. Это оптимальный вариант для небольших компаний, где поток клиентов ограничен. Созданный бот можно объединить с Shopify для ведения электронной коммерции.
+Flow XO. Здесь уже можно создавать «продвинутых» роботов общения для работы в различных мессенджерах. Сервис можно совместить с GitHub и Buffer для оптимизации работы с клиентами.
+MEOKAY. Здесь уже потребуются некоторые навыки программирования. Имеется возможность создания ряда сценариев диалогов, чтобы беседа казалась более живой.
+Morph.ai. Главная особенность — скорость. Разработать умного помощника здесь можно буквально за несколько минут. А также сервис применяет глубинное обучение и естественный язык для максимального комфорта пользователей. Однако ресурс является платным, от 299 долларов в месяц.
+Botsify. Здесь легко разработать чат-бота совершенно бесплатно. Однако учтите, что функционал будет примитивный. В принципе, для начинающего бизнеса это отличный вариант.
+Botkit. Это тоже простой сервис, на котором можно научиться разрабатывать ботов, а затем переходить на более усовершенствованные площадки. Здесь можно сначала протестировать доступные технологии и только потом оформлять подписку.
+
+https://habr.com/ru/post/264035/
+
+https://textback.ru/novyi-sposob-lidogeneracii-s-pomoschu-chat-bota-whatsapp

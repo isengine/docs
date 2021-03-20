@@ -1,0 +1,203 @@
+# Константы
+
+для NAME_* и PATH_*
+
+новые / старые
+
+BASE + ROOT_PATH - ADMINISTRATOR
+CONTENT - ARTICLES
+CORE - INCLUDES
+LANGUAGES - ...
+LOCAL - UPLOAD
+LOG - ...
+[удалены] - NAME_PERSONAL + NAME_PRIVATE
+
+остальные остались так же
+
+
+
+===
+Опции шаблона
+===
+
+были в template -> options стали в template -> settings -> options
+
+	develop - не используется, теперь это константа
+	mobiledetect - теперь device
+	autoseo - больше нет, т.к. seo идет по-умолчанию
+	baseset - тоже больше нет, создавайте элементы и вызывайте их функциями шаблона
+
+seo задается через настройки:
+	default - для общих случаев
+	name - для частных, где name - название страницы согласно структуре
+	
+также в любом разделе seo возможны два массива доп.настроек:
+	content - для настроек seo-тегов согласно полям материала
+	lang - для настроек seo-тегов согласно разделам языкового массива
+
+для доп.настроек содержимое такое:
+	ключ - seo-тег
+	значение - название поля или раздела
+	* для lang значение может быть разделено двоеточием, если требуется указать вложенность,
+	например: "information:phone:hot" для "lang : { data : { information : { phone : { hot : ... } } } }"
+
+page($name, $target = 'inner')
+	теперь по-умолчанию не item, а inner
+	это означает, что раньше по-умолчанию грузились элементы базового шаблона, а теперь - страницы сайта
+	Будьте внимательны!
+
+thispage($target, $second)
+	'article' теперь 'content'
+	'articlename' теперь 'contentname'
+
+===
+Параметры объекта шаблона
+===
+
+$template -> site ($_SERVER["SERVER_NAME"]) --- $uri -> host
+$template -> url --- $uri -> site
+
+$template -> lang --- $lang -> lang
+$template -> langcode --- $lang -> code
+$template -> langs --- $lang -> list
+
+$template -> router:
+
+например, для http://0hp.ru/rooms/apartments/
+[router] => Object(
+	[types] => Array(
+		[rooms] => article
+	)
+	[folders] => Array(
+	)
+	[page] => rooms
+	[parameters] => Object(
+		[article] => apartments
+	)
+)
+
+например, для http://0hp.ru/about/news/newyearnight/
+[router] => Object(
+	[types] => Array(
+		[about] => 
+		[news] => article
+	)
+	[folders] => Array(
+		[0] => about
+	)
+	[page] => news
+	[parameters] => Object(
+		[article] => newyearnight
+	)
+)
+
+теперь, для http://0planeta-kmv.ru/about/news/newyearnight/
+[page] => Array(
+	[id] => 3
+	[name] => newyearnight
+	[type] => 
+	[template] => 
+	[parameters] => Array(
+	)
+	[parents] => Array(
+		[0] => about
+		[1] => news
+	)
+)
+
+теперь, для http://0planeta-kmv.ru/seance/astronomija/
+[page] => Array(
+	[id] => 3
+	[name] => seance
+	[type] => content
+	[template] => 
+	[parameters] => Array(
+	)
+	[parents] => Array(
+	)
+)
+
+$content: Object(
+    [page] => 
+    [all] => 
+    [name] => astronomija
+    [filter] => Array(
+	)
+    [this] => Array(
+		[id] => 0
+		[name] => astronomija
+		[type] => 
+		[self] => 
+		[parent] => Array(
+			[0] => seance
+		)
+		[ctime] => 1573643170
+		[mtime] => 1528443470
+		[data] => Array(
+			...
+		)
+	)
+)
+
+$template -> router -> page (если пустой, то считается 'home') --- $template -> page['name'] : thispage('is')
+$template -> router -> folders (array) --- $template -> page['parents'] : thispage('parents')
+$template -> router -> parameters --- $template -> page['parameters'] : thispage('parameters') / thispage('parameters', ...)
+$template -> router -> parameters -> page (страница) : content('page')
+
+$template -> router -> parameters -> article (название материала) --- $content -> name : thispage('contentname') > content('name')
+а проверка empty($template -> router -> parameters -> article) --- empty($content) / !set($content) - лучше, т.к. возвращает false с пустых объектов > content('name')
+
+А ЕЩЕ ЛУЧШЕ ПРОВЕРЯТЬ, КОНТЕНТ ЭТО ИЛИ НЕТ ФУНКЦИЕЙ thispage('content')
+
+$template -> url теперь не существует, все урлы хранятся в объекте $uri
+$template -> url --- $uri -> scheme . '://' . $uri -> host . $uri -> path -> base
+*для облегчения теперь --- $uri -> site и это безо всяких проверок на язык, слешей в конце и прочего
+
+Кстати, теперь языковые страницы (любые) идут через точку:
+
+	pagename_ru.php --- pagename.ru.php
+
+===
+Языковой объект
+===
+
+Проверки языков теперь почти не требуется. На крайний случай же добавлена функция thislang('default').
+
+Константа ROOT_LANG заменена на DEFAULT_LANG, вместо значения auto теперь true. Но проверять лучше либо через функцию, либо через пустой $lang
+
+Вызов языкового элемента теперь через функцию:
+	$lang -> ... --- lang('...')
+Также эта функция поддерживает проверку:
+	!empty/isset($lang -> ...) --- lang('...', 'is')
+Если вам нужно просто взять значение (например, вы выводите элемент в echo), то используйте false:
+	echo $lang -> ... --- echo lang('...', false)
+	$var = $lang -> ... --- $var = lang('...', false)
+Глубина задается через двоеточия:
+	$lang -> name -> subname --- lang('name:subname')
+
+===
+Параметры объекта модуля
+===
+
+$module -> settings -> ... --- теперь $module -> settings[...]
+
+регулярка:
+!ВНИМАНИЕ с этими регулярками нужно быть внимательными, т.к. они иногда захватывают больше, чем надо
+
+1.
+\$module -> settings -> (\w+)?([^\w])
+$module -> settings['$1']$2
+
+2.
+\$module -> settings\['([a-z\s\-\>]+)?('\] -> )(\w+)?([^\w])
+$module -> settings['$1']['$3']$4
+
+===
+Структура
+===
+
+"home" --- "home:home" (обязательно, даже если еще пока работает старый!)
+"name|url" : "/path/to/page/" --- "name:url:path.to.page"
+"name|article" --- "name:content"
+"name|..." --- "name:..."
+

@@ -1,0 +1,54 @@
+# For more information about the robots.txt standard, see:
+# http://www.robotstxt.org/orig.html
+# For syntax checking, see:
+# http://tool.motoricerca.info/robots-checker.phtml
+
+User-agent: *
+Disallow: /administrator/
+Disallow: /articles/
+Disallow: /cache/
+Disallow: /includes/
+Disallow: /libraries/
+Disallow: /media/
+Disallow: /modules/
+Disallow: /templates/
+Disallow: /personal/
+Disallow: /private/
+Host: 0iscms.ru
+Crawl-delay: 10
+
+Sitemap: http://0iscms.ru/sitemap.xml
+
+<?php
+$robots = "# For more information about the robots.txt standard, see:
+# http://www.robotstxt.org/orig.html
+# For syntax checking, see:
+# http://tool.motoricerca.info/robots-checker.phtml
+
+User-agent: *
+Disallow: /" . NAME_ADMINISTRATOR . "/
+Disallow: /" . NAME_ARTICLES . "/
+Disallow: /" . NAME_CACHE . "/
+Disallow: /" . NAME_INCLUDES . "/
+Disallow: /" . NAME_LIBRARIES . "/
+Disallow: /" . NAME_UPLOAD . "/
+Disallow: /" . NAME_MODULES . "/
+Disallow: /" . NAME_TEMPLATES . "/
+Disallow: /" . NAME_PERSONAL . "/
+Disallow: /" . NAME_PRIVATE . "/
+Host: " . $_SERVER['SERVER_NAME'] . "
+Crawl-delay: 10
+
+Sitemap: " . $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'] . "/sitemap.xml";
+
+$last_modified_time = filemtime($_SERVER['SCRIPT_FILENAME']);
+$etag = md5($robots);
+
+/*
+header("Last-Modified: " . gmdate("D, d M Y H:i:s", $last_modified_time) . " GMT");
+header("Etag: ". $etag);
+header($_SERVER['SERVER_PROTOCOL'] . " 304 Not Modified");
+*/
+header("Content-Type: text/plain; charset=UTF-8");
+echo $robots;
+?>
