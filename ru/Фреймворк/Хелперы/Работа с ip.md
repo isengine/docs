@@ -6,13 +6,13 @@
 
 ## Ip::real()
 
-Ip::real()
+    Ip::real()
 	
 Функция получения реального ip-адреса посетителя.
 
 ## Ip::range
 
-Ip::range($ip, $ip_base)
+    Ip::range($ip, $ip_base)
 	
 Функция проверки ip на присутствие в заданном диапазоне.
 
@@ -26,7 +26,7 @@ ip-адрес
 
 ## Ip::convert
 
-Ip::convert($ip, $ip_type = null)
+    Ip::convert($ip, $ip_type = null)
 
 Служебная функция преобразования ip адреса в число.
 
@@ -40,7 +40,7 @@ ip-адрес
 
 ## Ip::convertCIDR4
 
-Ip::convertCIDR4($ipv4)
+    Ip::convertCIDR4($ipv4)
 
 Служебная функция преобразования ip адреса в число из формата cidr для ipv4.
 
@@ -50,7 +50,7 @@ ip-адрес в формате версии 4
 
 ## Ip::convertCIDR6
 
-Ip::convertCIDR6($ip)
+    Ip::convertCIDR6($ip)
 
 Служебная функция преобразования ip адреса в число из формата cidr для ipv6.
 
