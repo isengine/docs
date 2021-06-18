@@ -2,7 +2,7 @@
 
 Пространство имен:
 
-    use is/Helpers/Ip;
+    use is\Helpers\Ip;
 
 ## Ip::real()
 
