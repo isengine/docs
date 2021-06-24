@@ -6,6 +6,10 @@
 
 Работа с локальными файлами и папками
 
+Local::map($path, $parameters = [], $basepath = null) {
+
+}
+
 Local::search($path, $parameters = [], $basepath = null) {
 	
 	// now dirconnect and fileconnect is localList
