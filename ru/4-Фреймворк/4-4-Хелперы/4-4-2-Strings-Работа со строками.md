@@ -223,6 +223,31 @@
 
 Включение необязательного аргумента **reverse** меняет действие функции так, что она дополняет строку в начало.
 
+## Strings::multiply
+
+    Strings::multiply($string, $count)
+
+Повторить строку указанное число раз.
+
+**string**
+Тип: **смешанный**
+Исходная строка
+
+**count**
+Тип: **смешанный**
+Число повторений
+
+Функция повторяет строку **string** указанное в аргументе **count** число раз.
+
+Пример:
+
+    $string = 'abcdef';
+    Strings::multiply($string, 4);
+
+Результат:
+
+    abcdefabcdefabcdefabcdef
+
 ## Strings::reverse
 
     Strings::reverse($item)
