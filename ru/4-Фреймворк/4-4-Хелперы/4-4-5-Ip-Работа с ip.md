@@ -4,11 +4,15 @@
 
     use is\Helpers\Ip;
 
-## Ip::real()
+## Ip::real
 
-    Ip::real()
+    Ip::real($proxy = null)
 	
 Функция получения реального ip-адреса посетителя.
+
+**proxy**
+Тип: **смешанный**
+Получение адреса через прокси.
 
 ## Ip::range
 
